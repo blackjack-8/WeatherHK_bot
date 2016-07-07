@@ -1,0 +1,23 @@
+{
+  "name": "watherhk_bot",
+  "version": "1.0.0",
+  "description": "A telegram bot provide Hong Kong weather Information",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roypun/WeatherHK_bot.git"
+  },
+  "keywords": [
+    "telegram bot",
+    "HK weather"
+  ],
+  "author": "Roy Pun",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/roypun/WeatherHK_bot/issues"
+  },
+  "homepage": "https://github.com/roypun/WeatherHK_bot#readme"
+}
