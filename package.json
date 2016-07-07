@@ -16,6 +16,9 @@
   ],
   "author": "Roy Pun",
   "license": "ISC",
+  "dependencies": {
+    "telegram-node-bot": "3.0.10"
+  },
   "bugs": {
     "url": "https://github.com/roypun/WeatherHK_bot/issues"
   },
