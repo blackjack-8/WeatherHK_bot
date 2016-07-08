@@ -9,20 +9,15 @@ const tg = new Telegram.Telegram('220800675:AAH0PknzZmucD5Z2YBEfWMXTtv05DpEjyvU'
  var data = fs.readFileSync("data.json");
  var jsonData = JSON.parse(data);
 
-class ListTopicController extends TelegramBaseController {
-    /**
-     * @param {Scope} $
-     */
-    listTopicHandler($) {
-        $.sendMessage(jsonData.topics.toString())
-    }
+ class ListTopicController extends TelegramBaseController {
+     /**
+      * @param {Scope} $
+      */
+     handle($) {
+         $.sendMessage(jsonData.topics.toString())
+     }
+ }
 
-    get routes() {
-        return {
-            'topics': 'listTopicHandler'
-        }
-    }
-}
 
 class InvalidInputController extends TelegramBaseController {
     handle($) {
