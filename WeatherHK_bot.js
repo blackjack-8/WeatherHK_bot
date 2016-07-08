@@ -26,5 +26,5 @@ class InvalidInputController extends TelegramBaseController {
 }
 
 tg.router
-    .when(['topics'], new ListTopicController())
+    .when('/topics', new ListTopicController())
     .otherwise(new InvalidInputController())
