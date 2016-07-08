@@ -19,5 +19,12 @@ class EchoController extends TelegramBaseController {
     }
 }
 
+class InvalidInputController extends TelegramBaseController {
+    handle($) {
+        $.sendMessage('Invalid Input')
+    }
+}
+
 tg.router
     .when(['ping'], new EchoController())
+    .otherwise(new InvalidInputController())
