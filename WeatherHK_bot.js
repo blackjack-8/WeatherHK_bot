@@ -1,20 +1,25 @@
 'use strict'
 
+const fs = require("fs");
 const Telegram = require('telegram-node-bot');
 const TelegramBaseController = Telegram.TelegramBaseController;
 const tg = new Telegram.Telegram('220800675:AAH0PknzZmucD5Z2YBEfWMXTtv05DpEjyvU');
 
-class EchoController extends TelegramBaseController {
+
+ var data = fs.readFileSync("data.json");
+ var jsonData = JSON.parse(data);
+
+class ListTopicController extends TelegramBaseController {
     /**
      * @param {Scope} $
      */
-    pingHandler($) {
-        $.sendMessage('pong')
+    listTopicHandler($) {
+        $.sendMessage(jsonData.topics.toString())
     }
 
     get routes() {
         return {
-            'ping': 'pingHandler'
+            'topics': 'listTopicHandler'
         }
     }
 }
@@ -26,5 +31,5 @@ class InvalidInputController extends TelegramBaseController {
 }
 
 tg.router
-    .when(['ping'], new EchoController())
+    .when(['topics'], new ListTopicController())
     .otherwise(new InvalidInputController())
