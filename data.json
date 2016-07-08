@@ -1,0 +1,38 @@
+{
+  "topics" : [
+    "current",
+    "warning"
+  ],
+  "channels" : [
+    {
+      "topic" : "current",
+      "language" : "en",
+      "rssLink" : "http://rss.weather.gov.hk/rss/CurrentWeather.xml"
+    },
+    {
+      "topic" : "current",
+      "language" : "zh-hk",
+      "rssLink" : "http://rss.weather.gov.hk/rss/CurrentWeather_uc.xml"
+    },
+    {
+      "topic" : "current",
+      "language" : "zh-cn",
+      "rssLink" : "http://gbrss.weather.gov.hk/rss/CurrentWeather_uc.xml"
+    },
+    {
+      "topic" : "warning",
+      "language" : "english",
+      "rssLink" : "http://rss.weather.gov.hk/rss/WeatherWarningBulletin.xml"
+    },
+    {
+      "topic" : "warning",
+      "language" : "zh-hk",
+      "rssLink" : "http://rss.weather.gov.hk/rss/WeatherWarningBulletin_uc.xml"
+    },
+    {
+      "topic" : "warning",
+      "language" : "zh-cn",
+      "rssLink" : "http://gbrss.weather.gov.hk/rss/WeatherWarningBulletin_uc.xml"
+    }
+  ]
+}
