@@ -1,10 +1,18 @@
-var request = require('request')
-  , FeedParser = require('feedparser');
 
-function fetch(feed) {
+var FeedParser = require('feedparser')
+  , request = require('request');
+
+var data = {};
+function done(err) {
+  if (err) {
+    console.log(err, err.stack);
+  }
+}
+module.exports = {
+
+ fetch : function(feed) {
   // Define our streams
-  var req = request(feed);
-
+  var req = request(feed.rssLink);
   var feedparser = new FeedParser();
 
   // Define our handlers
@@ -21,17 +29,13 @@ function fetch(feed) {
   feedparser.on('readable', function() {
     var result;
     while (result = this.read()) {
-      console.log(JSON.stringify(result, ' ', 4));
+      data[feed.code] = result
     }
   });
-}
+},
 
-function done(err) {
-  if (err) {
-    console.log(err, err.stack);
-    return process.exit(1);
-  }
-  process.exit();
+ getFeed : function(channel){
+   var content = data[channel.code];
+   return content.description;
+ }
 }
-
-fetch("http://rss.weather.gov.hk/rss/CurrentWeather_uc.xml");
