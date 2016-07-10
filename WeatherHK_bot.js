@@ -8,7 +8,7 @@ const RssFetcher = require('./weatherRssFeed.js');
 
  var data = fs.readFileSync("data.json");
  var jsonData = JSON.parse(data);
- var users = [];
+ var users = {};
 
  function AddUser(userID)
  {
@@ -17,7 +17,7 @@ const RssFetcher = require('./weatherRssFeed.js');
  }
 
 function GetUserLanguage(userID){
-  if(users.indexOf(userID) === -1){
+  if(!users[userID]){
     AddUser(userID);
   }
   return users[userID].languageCode;
