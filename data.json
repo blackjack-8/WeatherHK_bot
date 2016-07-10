@@ -40,5 +40,10 @@
       "language" : "zh-cn",
       "rssLink" : "http://gbrss.weather.gov.hk/rss/WeatherWarningBulletin_uc.xml"
     }
-  ]
+  ],
+  "language" : {
+    "english" : "en",
+    "繁體中文" : "zh-hk",
+    "简体中文" : "zh-cn"
+  }
 }

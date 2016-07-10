@@ -8,6 +8,7 @@ const RssFetcher = require('./weatherRssFeed.js');
 
  var data = fs.readFileSync("data.json");
  var jsonData = JSON.parse(data);
+ var languages = [];
  var users = {};
 
  function AddUser(userID)
@@ -23,6 +24,13 @@ function GetUserLanguage(userID){
   return users[userID].languageCode;
 }
 
+function SetUserLanauge(languageCode, userID){
+    if(!users[userID]){
+      AddUser(userID);
+    }
+    users[userID].languageCode = languageCode;
+}
+
 function GetChannel(topic, userID)
 {
   var channel;
@@ -34,6 +42,19 @@ function GetChannel(topic, userID)
     }
   });
   return channel
+}
+
+function GetLanguageList()
+{
+  if(languages.length === 0){
+    for (var language in jsonData.language) {
+      if (jsonData.language.hasOwnProperty(language)) {
+        languages.push(language)
+      }
+    }
+  }
+  
+  return languages;
 }
 
 function StartPolling(){
@@ -73,6 +94,23 @@ StartPolling();
     }
 }
 
+class SetLanguageController extends TelegramBaseController {
+   /**
+    * @param {Scope} $
+    */
+   handle($) {
+     var languageCode = jsonData.language[$.query.language];
+     if(languageCode) {
+       SetUserLanauge(languageCode, $.update.message.from.id);
+       //TODO: Add translation
+       $.sendMessage("Language changed to: ", $.query.language);
+     }
+     else {
+       $.sendMessage('Language "' + $.query.language + '" doesn\'t exist. WeatherHK now support Languages: ' + GetLanguageList().toString());
+     }
+   }
+}
+
 class InvalidInputController extends TelegramBaseController {
     handle($) {
         $.sendMessage('Invalid Input. WeatherHK have three commands: /topics, /tellme and /language. Try to enter it to check the details.')
@@ -82,4 +120,5 @@ class InvalidInputController extends TelegramBaseController {
 tg.router
     .when('/topics', new ListTopicController())
     .when('/tellme :topic', new GetFeedController())
+    .when('/language :language', new SetLanguageController())
     .otherwise(new InvalidInputController())
