@@ -68,14 +68,14 @@ StartPolling();
         $.sendMessage(content);
       }
       else {
-        $.sendMessage('Topic "' + $.query.topic + '" doesn\'t exist')
+        $.sendMessage('Topic "' + $.query.topic + '" doesn\'t exist. WeatherHK now support topics: ' + jsonData.channels.toString());
       }
     }
 }
 
 class InvalidInputController extends TelegramBaseController {
     handle($) {
-        $.sendMessage('Invalid Input')
+        $.sendMessage('Invalid Input. WeatherHK have three commands: /topics, /tellme and /language. Try to enter it to check the details.')
     }
 }
 
