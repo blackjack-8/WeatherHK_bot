@@ -13,19 +13,20 @@ const RssFetcher = require('./weatherRssFeed.js');
  function AddUser(userID)
  {
    users[userID] = {};
-   users[userID].language = 'en';
+   users[userID].languageCode = 'en';
  }
 
 function GetUserLanguage(userID){
   if(users.indexOf(userID) === -1){
     AddUser(userID);
   }
-  return users[userID].language;
+  return users[userID].languageCode;
 }
 
-function GetChannel(topic, language)
+function GetChannel(topic, userID)
 {
   var channel;
+  var language = GetUserLanguage(userID);
    jsonData.channels.forEach(function fetch(val) {
      if(val.topic === topic && val.language === language){
       channel = val;
@@ -61,8 +62,7 @@ StartPolling();
       var isTopicSupport = jsonData.topics.indexOf($.query.topic) > -1
 
       if(isTopicSupport) {
-        var language = GetUserLanguage($.update.message.from.id);
-        var channel = GetChannel($.query.topic, language);
+        var channel = GetChannel($.query.topic, $.update.message.from.id);
         var content = RssFetcher.getFeed(channel)
         //TODO: Parse the html content into telegram message format
         $.sendMessage(content);
