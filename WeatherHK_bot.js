@@ -4,10 +4,18 @@ const fs = require("fs");
 const Telegram = require('telegram-node-bot');
 const TelegramBaseController = Telegram.TelegramBaseController;
 const tg = new Telegram.Telegram('220800675:AAH0PknzZmucD5Z2YBEfWMXTtv05DpEjyvU');
-
+const RssFetcher = require('./weatherRssFeed.js');
 
  var data = fs.readFileSync("data.json");
  var jsonData = JSON.parse(data);
+function StartPolling(){
+ setTimeout(function(){
+  jsonData.channels.forEach(function fetch(val) {
+    RssFetcher.fetch(val);
+  })}, 30);
+}
+
+StartPolling();
 
  class ListTopicController extends TelegramBaseController {
      /**
