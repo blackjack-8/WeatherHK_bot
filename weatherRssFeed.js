@@ -29,6 +29,14 @@ module.exports = {
   feedparser.on('readable', function() {
     var result;
     while (result = this.read()) {
+      console.log("fetching channel code: " + feed.code);
+      if (data[feed.code]){
+        var matchPreviousUpdate = data[feed.code].pubDate.toString() === result.pubDate.toString();
+        if(!matchPreviousUpdate){
+          //TODO: send latest info to users who subscribed that channel
+          console.log("refresh!!!");
+        }
+      }
       data[feed.code] = result
     }
   });
