@@ -69,6 +69,32 @@ function StartPolling(){
    })
  }, 3000);
 }
+
+function IsChannelSubscribed(channel, userID) {
+  IsUserExist(userID);
+  var channelIndex = users[userID].subscribedChannels.indexOf(channel);
+  if(channelIndex > -1){
+    return true;
+  }
+  return false;
+}
+
+function SetSubscribeChannel(channel, userID) {
+  IsUserExist(userID);
+
+  if(!IsChannelSubscribed(channel, userID))
+  {
+    users[userID].subscribedChannels.push(channel);
+  }
+}
+
+function DeleteSubscribeChannel(channel, userID) {
+  IsUserExist(userID)
+
+  if(IsChannelSubscribed(channel, userID)) {
+    var channelIndex = users[userID].subscribedChannels.indexOf(channel)
+    users[userID].subscribedChannels.splice(channelIndex,1);
+  }
 }
 
 StartPolling();
@@ -118,6 +144,45 @@ class SetLanguageController extends TelegramBaseController {
    }
 }
 
+class SubscribeController extends TelegramBaseController {
+   /**
+    * @param {Scope} $
+    */
+   handle($) {
+     var isTopicSupport = jsonData.topics.indexOf($.query.topic) > -1
+
+     if(isTopicSupport) {
+       SetSubscribeChannel($.query.topic, $.update.message.from.id);
+       $.sendMessage("OK");
+     }
+     else {
+       $.sendMessage('Subscribe Failed. Topic "' + $.query.topic + '" doesn\'t exist. WeatherHK now support topics: ' + jsonData.channels.toString());
+     }
+   }
+}
+
+class UnsubscribeController extends TelegramBaseController {
+   /**
+    * @param {Scope} $
+    */
+   handle($) {
+     var isTopicSupport = jsonData.topics.indexOf($.query.topic) > -1
+
+     if(isTopicSupport) {
+       if(IsChannelSubscribed($.query.topic, $.update.message.from.id)){
+         DeleteSubscribeChannel($.query.topic, $.update.message.from.id);
+         $.sendMessage('unsubscribed');
+       }
+       else{
+         $.sendMessage('UnSubscribe Failed. You didn\'t subscribe channel "' + $.query.topic +'" yet');
+       }
+     }
+     else {
+       $.sendMessage('UnSubscribe Failed. Topic "' + $.query.topic + '" doesn\'t exist. WeatherHK now support topics: ' + jsonData.channels.toString());
+     }
+   }
+}
+
 class InvalidInputController extends TelegramBaseController {
     handle($) {
         $.sendMessage('Invalid Input. WeatherHK have three commands: /topics, /tellme and /language. Try to enter it to check the details.')
@@ -128,4 +193,6 @@ tg.router
     .when('/topics', new ListTopicController())
     .when('/tellme :topic', new GetFeedController())
     .when('/language :language', new SetLanguageController())
+    .when('/subscribe :topic', new SubscribeController())
+    .when('/unsubscribe :topic', new UnsubscribeController())
     .otherwise(new InvalidInputController())
