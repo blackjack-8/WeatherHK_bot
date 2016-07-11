@@ -63,10 +63,11 @@ function GetLanguageList()
 }
 
 function StartPolling(){
- setTimeout(function(){
+ setInterval(function(){
   jsonData.channels.forEach(function fetch(val) {
     RssFetcher.fetch(val);
-  })}, 30);
+  })}, 3000);
+}
 }
 
 StartPolling();
