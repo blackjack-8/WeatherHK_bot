@@ -58,7 +58,6 @@ function GetLanguageList()
       }
     }
   }
-  
   return languages;
 }
 

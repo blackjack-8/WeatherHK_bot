@@ -43,6 +43,7 @@ module.exports = {
 },
 
  getFeed : function(channel){
+   console.log(channel);
    var content = data[channel.code];
    return content.description;
  }
