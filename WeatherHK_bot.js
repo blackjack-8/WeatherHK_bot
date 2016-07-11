@@ -64,9 +64,10 @@ function GetLanguageList()
 
 function StartPolling(){
  setInterval(function(){
-  jsonData.channels.forEach(function fetch(val) {
-    RssFetcher.fetch(val);
-  })}, 3000);
+   jsonData.channels.forEach(function fetch(val) {
+     RssFetcher.fetch(val);
+   })
+ }, 3000);
 }
 }
 
