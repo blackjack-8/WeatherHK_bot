@@ -15,19 +15,24 @@ const RssFetcher = require('./weatherRssFeed.js');
  {
    users[userID] = {};
    users[userID].languageCode = 'en';
+   users[userID].subscribedChannels = [];
+ }
+
+ function IsUserExist(userID){
+   if(!users[userID]){
+     AddUser(userID);
+   }
  }
 
 function GetUserLanguage(userID){
-  if(!users[userID]){
-    AddUser(userID);
-  }
+  IsUserExist(userID);
+
   return users[userID].languageCode;
 }
 
 function SetUserLanauge(languageCode, userID){
-    if(!users[userID]){
-      AddUser(userID);
-    }
+    IsUserExist(userID);
+
     users[userID].languageCode = languageCode;
 }
 
